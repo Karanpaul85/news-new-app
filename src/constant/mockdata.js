@@ -1,4 +1,4 @@
-export const newsDataDummy = [
+export const newsData = [
   {
     article_id: "bbbf38e07e7714d8552a7d8ec1cad19b",
     title:
