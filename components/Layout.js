@@ -1,4 +1,6 @@
 import Head from "next/head";
+import BottomBar from "./bottomBar/BottomBar";
+import Header from "./header/Header";
 const Layout = (props) => {
   return (
     <>
@@ -21,7 +23,9 @@ const Layout = (props) => {
           content="Hindi news, हिंदी न्यूज़ , Hindi Samachar, हिंदी समाचार, Latest News in Hindi, Breaking News in Hindi, ताजा ख़बरें, KP News"
         />
       </Head>
-      <div>{props.children}</div>
+      <Header />
+      <main>{props.children}</main>
+      <BottomBar />
     </>
   );
 };

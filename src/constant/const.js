@@ -1,4 +1,6 @@
 export const allConst = {
-  textConst: {},
+  textConst: {
+    LATEST_NEWS: "Latest News",
+  },
   actionConst: {},
 };

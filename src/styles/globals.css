@@ -13,3 +13,9 @@ a {
   color: inherit;
   text-decoration: none;
 }
+main {
+  background: #f8f8f8;
+  height: calc(100vh - 81px);
+  overflow: auto;
+  padding-bottom: 54px;
+}
