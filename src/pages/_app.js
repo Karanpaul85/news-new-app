@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import { wrapper } from "../redux/store";
 import { Poppins } from "next/font/google";
 const poppins = Poppins({
   weight: ["400", "500", "600"],
@@ -6,7 +7,7 @@ const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
 });
-export default function App({ Component, pageProps }) {
+const App = ({ Component, pageProps }) => {
   return (
     <>
       <style jsx global>{`
@@ -17,4 +18,5 @@ export default function App({ Component, pageProps }) {
       <Component {...pageProps} />
     </>
   );
-}
+};
+export default wrapper.withRedux(App);
