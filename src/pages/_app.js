@@ -9,8 +9,7 @@ const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
 });
-const App = ({ Component, ...rest }) => {
-  const { store, props } = wrapper.useWrappedStore(rest);
+const App = ({ Component, pageProps }) => {
   return (
     <>
       <style jsx global>{`
@@ -26,4 +25,4 @@ const App = ({ Component, ...rest }) => {
     </>
   );
 };
-export default App;
+export default wrapper.withRedux(App);
