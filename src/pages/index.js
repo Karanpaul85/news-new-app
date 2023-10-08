@@ -53,7 +53,7 @@ const Home = ({ hostName }) => {
   };
   return (
     <Layout>
-      <Head>{ogMetaTags(hostName, newsDataDummy[0])}</Head>
+      {/* <Head>{ogMetaTags(hostName, newsDataDummy[0])}</Head> */}
       <div style={{ height: 200 }}>Slider</div>
       <div className={styles.mainHeading}>
         <h1>{textConst.LATEST_NEWS}</h1>
