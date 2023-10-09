@@ -3,6 +3,8 @@ import { allConst } from "../constant/const";
 import styles from "../styles/Home.module.css";
 import { newsData } from "../constant/mockdata";
 import Image from "next/image";
+import Head from "next/head";
+import { ogMetaTags } from "../../components/commonOgMetatags";
 
 export default function Home() {
   const { textConst } = allConst;
@@ -41,13 +43,14 @@ export default function Home() {
       fontSize: "14px",
       fontWeight: "500",
     },
-    published:{
+    published: {
       marginTop: "10px",
       fontSize: "12px",
-    }
+    },
   };
   return (
     <Layout>
+      <Head>{ogMetaTags("hostName", newsData[0])}</Head>
       <div style={{ height: 200 }}>Slider</div>
       <div className={styles.mainHeading}>
         <h1>{textConst.LATEST_NEWS}</h1>
@@ -69,7 +72,9 @@ export default function Home() {
                 </div>
                 <div className="newsContent" style={customStyle.newsContent}>
                   <h3 style={customStyle.h3Hdeading}>{item.title}</h3>
-                  <p style={customStyle.published}>Published at : {item.pubDate}</p>
+                  <p style={customStyle.published}>
+                    Published at : {item.pubDate}
+                  </p>
                 </div>
               </div>
             );
