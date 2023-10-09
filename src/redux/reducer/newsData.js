@@ -6,7 +6,7 @@ const newsData = (state = initialState, action) => {
     case HYDRATE:
       return {
         ...state,
-        ...action.payload.newsData,
+        ...action.payload,
       };
     case "HINDI": {
       return {
