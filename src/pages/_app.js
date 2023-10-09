@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import { wrapper } from "../redux/store";
 import { Poppins } from "next/font/google";
+import ErrorBoundary from "../../components/ErrorBoundry";
 const poppins = Poppins({
   weight: ["400", "500", "600"],
   style: ["normal", "italic"],
@@ -15,7 +16,9 @@ const App = ({ Component, pageProps }) => {
           font-family: ${poppins.style.fontFamily};
         }
       `}</style>
+      <ErrorBoundary>
         <Component {...pageProps} />
+      </ErrorBoundary>
     </>
   );
 };
