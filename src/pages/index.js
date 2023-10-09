@@ -5,8 +5,10 @@ import { newsData } from "../constant/mockdata";
 import Image from "next/image";
 import Head from "next/head";
 import { ogMetaTags } from "../../components/commonOgMetatags";
+import { wrapper } from "../redux/store";
+import { homeData } from "../redux/actions/getNewsdata";
 
-export default function Home() {
+const Home = () => {
   const { textConst } = allConst;
   const customStyle = {
     newsSection: {
@@ -82,4 +84,10 @@ export default function Home() {
       </div>
     </Layout>
   );
-}
+};
+Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
+  if (ctx.req) {
+    await store.dispatch(homeData());
+  }
+});
+export default Home;
