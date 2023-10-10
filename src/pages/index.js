@@ -54,7 +54,9 @@ const Home = () => {
   };
   return (
     <Layout>
-      <Head>{ogMetaTags("hostName", newsData[0])}</Head>
+      <Head>
+        {ogMetaTags("https://world-breaking-news.netlify.app", newsData[0])}
+      </Head>
       <div style={{ height: 200 }}>Slider</div>
       <div className={styles.mainHeading}>
         <h1>{textConst.LATEST_NEWS}</h1>
@@ -88,9 +90,9 @@ const Home = () => {
     </Layout>
   );
 };
-export const getStaticProps = wrapper.getStaticProps((store) => () => {
-  store.dispatch(engData());
-  store.dispatch(homeData());
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  await store.dispatch(engData());
+  await store.dispatch(homeData());
 });
 
 export default Home;
