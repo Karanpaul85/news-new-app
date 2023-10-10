@@ -28,6 +28,7 @@ const Home = () => {
       position: "relative",
       width: "100px",
       height: "100px",
+      paddingTop: "32.75%",
       flex: 1,
     },
     img: {
@@ -69,10 +70,11 @@ const Home = () => {
                 <div className="tumbNail" style={customStyle.tumbNail}>
                   <Image
                     src={item.image_url}
-                    width={100}
-                    height={100}
+                    width={600}
+                    height={600}
                     alt=""
                     style={customStyle.img}
+                    loading="lazy"
                   />
                 </div>
                 <div className="newsContent" style={customStyle.newsContent}>
