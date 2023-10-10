@@ -7,12 +7,9 @@ import Head from "next/head";
 import { ogMetaTags } from "../../components/commonOgMetatags";
 import { wrapper } from "../redux/store";
 import { homeData, engData } from "../redux/actions/getNewsdata";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-  // const dispatch = useDispatch();
-  // dispatch(engData());
   const engNewsData = useSelector((store) => store.newsData);
   const { textConst } = allConst;
   const customStyle = {
@@ -63,12 +60,7 @@ const Home = () => {
         <h1>{textConst.LATEST_NEWS}</h1>
       </div>
       {engNewsData?.eng}
-      {newsData &&
-        newsData.length &&
-        newsData.map((item) => {
-          return <div key={item.article_id}>{item.image_url}</div>;
-        })}
-      {/* <div className="newsSection" style={customStyle.newsSection}>
+      <div className="newsSection" style={customStyle.newsSection}>
         {newsData &&
           newsData.length &&
           newsData.map((item) => {
@@ -92,20 +84,13 @@ const Home = () => {
               </div>
             );
           })}
-      </div> */}
+      </div>
     </Layout>
   );
 };
-// Home.getInitialProps = wrapper.getServerSideProps((store) => async (ctx) => {
-//   await store.dispatch(homeData());
-// });
-
-// Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
-//   console.log(store, "store");
-//   await store.dispatch(engData());
-// });
 export const getStaticProps = wrapper.getStaticProps((store) => () => {
-  store.dispatch(engData())
-})
+  store.dispatch(engData());
+  store.dispatch(homeData());
+});
 
 export default Home;
