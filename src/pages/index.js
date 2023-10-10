@@ -94,6 +94,9 @@ const Home = () => {
 //   await store.dispatch(homeData());
 // });
 
+
+
+
 console.log(wrapper, " wrapper");
 Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
   if (ctx.req) {
