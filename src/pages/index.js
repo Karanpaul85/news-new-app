@@ -6,7 +6,7 @@ import Image from "next/image";
 import Head from "next/head";
 import { ogMetaTags } from "../../components/commonOgMetatags";
 import { wrapper } from "../redux/store";
-import { homeData } from "../redux/actions/getNewsdata";
+import { homeData, engData } from "../redux/actions/getNewsdata";
 
 const Home = () => {
   const { textConst } = allConst;
@@ -94,8 +94,9 @@ const Home = () => {
 //   await store.dispatch(homeData());
 // });
 
-wrapper.getInitialAppProps((store) => (ctx) => {
+Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
   console.log(store, "store");
+  await store.dispatch(engData());
 });
 
 export default Home;

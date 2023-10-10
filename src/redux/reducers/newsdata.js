@@ -14,6 +14,12 @@ const newsData = (state = intialState, action) => {
         hindi: payload,
       };
     }
+    case "HOMEENGDATA": {
+      return {
+        ...state,
+        eng: payload,
+      };
+    }
     default:
       return state;
   }

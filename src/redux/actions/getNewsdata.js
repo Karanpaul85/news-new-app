@@ -6,6 +6,7 @@ export const homeData = () => {
   };
 };
 export const engData = () => {
+  console.log("action call eng");
   return {
     type: "HOMEENGDATA",
     payload: "eng Data",
