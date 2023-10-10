@@ -94,11 +94,11 @@ const Home = () => {
 //   await store.dispatch(homeData());
 // });
 
-console.log(wrapper, " wrapper");
-Home.getInitialProps = wrapper.getInitialAppProps((store) => (ctx) => {
-  if (ctx.req) {
-    store.dispatch(homeData());
-  }
-});
+// console.log(wrapper, " wrapper");
+// Home.getInitialProps = wrapper.getInitialAppProps((store) => (ctx) => {
+//   if (ctx.req) {
+//     store.dispatch(homeData());
+//   }
+// });
 
 export default Home;
