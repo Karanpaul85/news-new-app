@@ -1,4 +1,5 @@
 export const homeData = () => {
+  console.log("action call");
   return {
     type: "HOMEDATA",
     payload: "Home Data",

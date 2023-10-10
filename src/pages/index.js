@@ -91,15 +91,14 @@ const Home = () => {
   );
 };
 // Home.getInitialProps = wrapper.getServerSideProps((store) => async (ctx) => {
-//   if (ctx.req) {
-//     await store.dispatch(homeData());
-//   }
+//   await store.dispatch(homeData());
 // });
 
 console.log(wrapper, " wrapper");
 Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
   if (ctx.req) {
-    await store.dispatch(homeData());
+    store.dispatch(homeData());
   }
 });
+
 export default Home;
