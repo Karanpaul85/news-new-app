@@ -90,12 +90,6 @@ const Home = () => {
     </Layout>
   );
 };
-// Home.getInitialProps = wrapper.getServerSideProps((store) => async (ctx) => {
-//   if (ctx.req) {
-//     await store.dispatch(homeData());
-//   }
-// });
-
 
 Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
   if (ctx.req) {
