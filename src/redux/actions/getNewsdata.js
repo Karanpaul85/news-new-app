@@ -8,6 +8,6 @@ export const homeData = () => {
 export const engData = () => {
   return {
     type: "HOMEENGDATA",
-    payload: "Home Data",
+    payload: "eng Data",
   };
 };
