@@ -1,15 +1,15 @@
 import { wrapper } from "../redux/store";
 import "@/styles/globals.css";
 // import { Poppins } from "next/font/google";
-import { Provider } from "react-redux";
+import { Provider, connect } from "react-redux";
 // const poppins = Poppins({
 //   weight: ["400", "500", "600"],
 //   style: ["normal", "italic"],
 //   subsets: ["latin"],
 //   display: "swap",
 // });
-const App = ({ Component, ...rest }) => {
-  const { store, props } = wrapper.useWrappedStore(rest);
+const App = ({ Component, pageProps}) => {
+  //const { store, props } = wrapper.useWrappedStore(rest);
   return (
     <>
       {/* <style jsx global>{`
@@ -17,10 +17,8 @@ const App = ({ Component, ...rest }) => {
           font-family: ${poppins.style.fontFamily};
         }
       `}</style> */}
-      <Provider store={store}>
-        <Component {...props.pageProps} />
-      </Provider>
+        <Component {...pageProps} />
     </>
   );
 };
-export default App;
+export default wrapper.withRedux(connect()(App));
