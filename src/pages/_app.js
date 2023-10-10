@@ -1,3 +1,4 @@
+import { homeData } from "@/redux/actions/getNewsdata";
 import { wrapper } from "../redux/store";
 import "@/styles/globals.css";
 // import { Poppins } from "next/font/google";
@@ -8,8 +9,9 @@ import { Provider, connect } from "react-redux";
 //   subsets: ["latin"],
 //   display: "swap",
 // });
-const App = ({ Component, pageProps}) => {
-  //const { store, props } = wrapper.useWrappedStore(rest);
+const App = ({ Component, ...rest }) => {
+  const { store, props } = wrapper.useWrappedStore(rest);
+  store.dispatch(homeData());
   return (
     <>
       {/* <style jsx global>{`
@@ -17,8 +19,10 @@ const App = ({ Component, pageProps}) => {
           font-family: ${poppins.style.fontFamily};
         }
       `}</style> */}
-        <Component {...pageProps} />
+      <Provider store={store}>
+        <Component {...props.pageProps} />
+      </Provider>
     </>
   );
 };
-export default wrapper.withRedux(connect()(App));
+export default App;
