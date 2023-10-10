@@ -55,7 +55,7 @@ const Home = () => {
   return (
     <Layout>
       <Head>
-        {ogMetaTags("https://world-breaking-news.netlify.app", newsData[0])}
+        {ogMetaTags( newsData[0])}
       </Head>
       <div style={{ height: 200 }}>Slider</div>
       <div className={styles.mainHeading}>

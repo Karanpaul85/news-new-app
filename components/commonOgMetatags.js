@@ -1,4 +1,4 @@
-export const ogMetaTags = (hostName, otherdata) => {
+export const ogMetaTags = (otherdata) => {
   return (
     <>
       <title>{otherdata.title}</title>
@@ -15,8 +15,6 @@ export const ogMetaTags = (hostName, otherdata) => {
       <meta property="og:description" content={otherdata.title} />
       <meta name="twitter:title" content={otherdata.title} />
       <meta name="twitter:description" content={otherdata.title} />
-      <meta name="twitter:url" content={hostName} />
-      <meta property="og:url" content={hostName} />
       <meta property="og:title" content={otherdata.title} />
       <meta name="twitter:title" content={otherdata.title} />
       <meta property="og:description" content={otherdata.title} />
