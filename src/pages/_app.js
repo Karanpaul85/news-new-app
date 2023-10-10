@@ -9,8 +9,8 @@ import { Provider, connect } from "react-redux";
 //   subsets: ["latin"],
 //   display: "swap",
 // });
-const App = ({ Component, pageProps }) => {
-  // const { store, props } = wrapper.useWrappedStore(rest);
+const App = ({ Component, ...rest }) => {
+  const { store, props } = wrapper.useWrappedStore(rest);
   // store.dispatch(homeData());
   return (
     <>
@@ -19,19 +19,11 @@ const App = ({ Component, pageProps }) => {
           font-family: ${poppins.style.fontFamily};
         }
       `}</style> */}
-        <Component {...pageProps} />
+      <Provider store={store}>
+        <Component {...props.pageProps} />
+      </Provider>
     </>
   );
 };
-/**
- * Mapping redux actions
- *
- * @param {Function} dispatch dispatch function
- *
- * @returns {object} dispatch actions mapped to props
- */
-const mapDispatchToProps = (dispatch) => ({
-  //fetchCurrencies: (currency) => dispatch({ type: APP_CONSTANTS.FETCH_CURRENCIES_REQUESTED, payload: currency || "" }),
-});
 
-export default wrapper.withRedux(connect(null, mapDispatchToProps)(App));
+export default App;

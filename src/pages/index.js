@@ -94,9 +94,17 @@ const Home = () => {
 //   await store.dispatch(homeData());
 // });
 
-Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
-  console.log(store, "store");
-  await store.dispatch(engData());
-});
+// Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
+//   console.log(store, "store");
+//   await store.dispatch(engData());
+// });
+
+export async function getInitialPageProps(ctx) {
+  try {
+    if (ctx.req) {
+      await engData();
+    }
+  } catch (err) {}
+}
 
 export default Home;
