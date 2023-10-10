@@ -57,7 +57,12 @@ const Home = () => {
       <div className={styles.mainHeading}>
         <h1>{textConst.LATEST_NEWS}</h1>
       </div>
-      <div className="newsSection" style={customStyle.newsSection}>
+      {newsData &&
+        newsData.length &&
+        newsData.map((item) => {
+          return <div key={item.article_id}>{item.image_url}</div>;
+        })}
+      {/* <div className="newsSection" style={customStyle.newsSection}>
         {newsData &&
           newsData.length &&
           newsData.map((item) => {
@@ -81,7 +86,7 @@ const Home = () => {
               </div>
             );
           })}
-      </div>
+      </div> */}
     </Layout>
   );
 };
