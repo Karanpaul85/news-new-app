@@ -75,10 +75,12 @@ const Home = () => {
                     alt=""
                     style={customStyle.img}
                     loading="lazy"
+                    blurDataURL={item.image_url}
+                    placeholder="blur"
                   />
                 </div>
                 <div className="newsContent" style={customStyle.newsContent}>
-                  <h3 style={customStyle.h3Hdeading}>{item.title}</h3>
+                  <h2 style={customStyle.h3Hdeading}>{item.title}</h2>
                   <p style={customStyle.published}>
                     Published at : {item.pubDate}
                   </p>
