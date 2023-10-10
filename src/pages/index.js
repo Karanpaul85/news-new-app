@@ -7,8 +7,13 @@ import Head from "next/head";
 import { ogMetaTags } from "../../components/commonOgMetatags";
 import { wrapper } from "../redux/store";
 import { homeData, engData } from "../redux/actions/getNewsdata";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const Home = () => {
+  // const dispatch = useDispatch();
+  // dispatch(engData());
+  const engNewsData = useSelector((store) => store.newsData);
   const { textConst } = allConst;
   const customStyle = {
     newsSection: {
@@ -57,6 +62,7 @@ const Home = () => {
       <div className={styles.mainHeading}>
         <h1>{textConst.LATEST_NEWS}</h1>
       </div>
+      {engNewsData?.eng}
       {newsData &&
         newsData.length &&
         newsData.map((item) => {
@@ -98,13 +104,8 @@ const Home = () => {
 //   console.log(store, "store");
 //   await store.dispatch(engData());
 // });
-
-export async function getInitialPageProps(ctx) {
-  try {
-    if (ctx.req) {
-      await engData();
-    }
-  } catch (err) {}
-}
+export const getStaticProps = wrapper.getStaticProps((store) => () => {
+  store.dispatch(engData())
+})
 
 export default Home;
