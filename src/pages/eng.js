@@ -6,10 +6,10 @@ import Image from "next/image";
 import Head from "next/head";
 import { ogMetaTags } from "../../components/commonOgMetatags";
 import { wrapper } from "../redux/store";
-import { homeData } from "../redux/actions/getNewsdata";
+import { engData } from "../redux/actions/getNewsdata";
 import { useSelector } from "react-redux";
 
-const Home = () => {
+const Eng = () => {
   const engNewsData = useSelector((store) => store.newsData);
   const { textConst } = allConst;
   const customStyle = {
@@ -106,7 +106,7 @@ const Home = () => {
   );
 };
 export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-  await store.dispatch(homeData());
+  await store.dispatch(engData());
 });
 
-export default Home;
+export default Eng;

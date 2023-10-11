@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import styles from "./BottomBar.module.css";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   BottomNavigation,
@@ -7,8 +6,10 @@ import {
   Paper,
 } from "@mui/material";
 import { Home, Search, Person } from "@mui/icons-material";
+import Link from "next/link";
 const BottomBar = () => {
   const [value, setValue] = useState("home");
+  useEffect(() => {}, [value]);
   return (
     <Box sx={{ width: 500 }}>
       <Paper
@@ -22,16 +23,16 @@ const BottomBar = () => {
             setValue(newValue);
           }}
         >
-          <BottomNavigationAction
-            label="Home"
-            value="home"
-            icon={<Home />}
-          />
+          <Link href="/">
+            <BottomNavigationAction label="Home" value="home" icon={<Home />} />
+          </Link>
+          <Link href="/eng">
           <BottomNavigationAction
             label="Search"
             value="search"
             icon={<Search />}
           />
+          </Link>
           <BottomNavigationAction
             label="Profile"
             value="profile"

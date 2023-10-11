@@ -1,8 +1,9 @@
 import Head from "next/head";
-import BottomBar from "./bottomBar/BottomBar";
+import dynamic from "next/dynamic";
 import Header from "./header/Header";
 import { useEffect, useState } from "react";
 const Layout = (props) => {
+  const BottomBar = dynamic(() => import("./bottomBar/BottomBar"));
   const [currentUrl, setCurrentUrl] = useState("");
   useEffect(() => {
     setCurrentUrl(window.location.href);
