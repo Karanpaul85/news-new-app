@@ -68,7 +68,8 @@ const Home = () => {
             return (
               <div key={item.article_id} style={customStyle.newsCard}>
                 <div className="tumbNail" style={customStyle.tumbNail}>
-                <Image
+                  <img src={item.image_url} style={customStyle.img} />
+                  {/* <Image
                       src={item.image_url}
                       width={600}
                       height={600}
@@ -77,7 +78,7 @@ const Home = () => {
                       loading="lazy"
                       blurDataURL={item.image_url}
                       placeholder="blur"
-                    />
+                    /> */}
                   {/* {index > 2 ? (
                     <Image
                       src={item.image_url}
