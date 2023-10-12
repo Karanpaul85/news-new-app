@@ -2,8 +2,8 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import Header from "./header/Header";
 import { useEffect, useState } from "react";
+import BottomBar from "./bottomBar/BottomBar";
 const Layout = (props) => {
-  const BottomBar = dynamic(() => import("./bottomBar/BottomBar"));
   const [currentUrl, setCurrentUrl] = useState("");
   useEffect(() => {
     setCurrentUrl(window.location.href);
@@ -23,7 +23,6 @@ const Layout = (props) => {
         <meta property="og:image" content="/favicon.ico" />
         <meta name="twitter:image" content="/favicon.ico" />
         <meta name="theme-color" content="#07007a" />
-        <title>Welcome to Breaking News</title>
         <meta
           name="keywords"
           content="Hindi news, हिंदी न्यूज़ , Hindi Samachar, हिंदी समाचार, Latest News in Hindi, Breaking News in Hindi, ताजा ख़बरें, KP News"
