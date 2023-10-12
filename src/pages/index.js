@@ -105,15 +105,8 @@ const Home = () => {
     </Layout>
   );
 };
-// export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-//   await store.dispatch(homeData());
-// });
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
-    await store.dispatch(homeData());
-    return {
-      props: {},
-    };
-  }
-);
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  await store.dispatch(homeData());
+});
+
 export default Home;
