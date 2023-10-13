@@ -5,12 +5,12 @@ import Image from "next/image";
 import Head from "next/head";
 import { ogMetaTags } from "../../components/commonOgMetatags";
 import { wrapper } from "../redux/store";
-import { homeData } from "../redux/actions/getNewsdata";
+import { homeData, apiCall, apiError } from "../redux/actions/getNewsdata";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
 const Home = () => {
-  const { hindi } = useSelector((store) => store.newsData);
+  const { hindi, loading } = useSelector((store) => store.newsData);
   const { textConst } = allConst;
   const customStyle = {
     newsSection: {
@@ -56,12 +56,17 @@ const Home = () => {
   };
   return (
     <Layout>
-      <Head>{ogMetaTags(newsData[0])}</Head>
+      <Head>
+        {ogMetaTags(
+          hindi && hindi.length ? hindi?.[0] : "Welcome to world breaking News"
+        )}
+      </Head>
       <div style={{ height: 200 }}>Slider</div>
       <div className={styles.mainHeading}>
         <h1>{textConst.LATEST_NEWS}</h1>
       </div>
       <div className="newsSection" style={customStyle.newsSection}>
+        {loading && <div>Loading...</div>}
         {hindi &&
           hindi.length &&
           hindi.map((item, index) => {
@@ -106,11 +111,16 @@ const Home = () => {
   );
 };
 export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  store.dispatch(apiCall());
   await axios(
     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-  ).then((data) => {
-    store.dispatch(homeData(data.data.results));
-  });
+  )
+    .then((data) => {
+      store.dispatch(homeData(data.data.results));
+    })
+    .catch((error) => {
+      store.dispatch(apiError(error?.response?.data));
+    });
 });
 
 export default Home;
