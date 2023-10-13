@@ -1,7 +1,9 @@
-export const homeData = () => {
+import axios from "axios";
+
+export const homeData = (data) => {
   return {
     type: "HOMEDATA",
-    payload: "Home Data",
+    payload: data,
   };
 };
 export const engData = () => {

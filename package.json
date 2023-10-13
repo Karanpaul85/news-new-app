@@ -15,6 +15,7 @@
     "@mui/material": "^5.14.12",
     "@netlify/plugin-nextjs": "^4.40.2",
     "@reduxjs/toolkit": "^1.9.7",
+    "axios": "^1.5.1",
     "next": "13.5.4",
     "next-redux-wrapper": "^8.1.0",
     "react": "^18",

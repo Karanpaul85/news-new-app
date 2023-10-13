@@ -1,5 +1,7 @@
 import { HYDRATE } from "next-redux-wrapper";
-const intialState = {};
+const intialState = {
+  hindi: "",
+};
 const newsData = (state = intialState, action) => {
   const { type, payload } = action;
   switch (type) {

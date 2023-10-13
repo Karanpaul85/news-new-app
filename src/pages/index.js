@@ -1,16 +1,16 @@
 import Layout from "../../components/Layout";
 import { allConst } from "../constant/const";
 import styles from "../styles/Home.module.css";
-import { newsData } from "../constant/mockdata";
 import Image from "next/image";
 import Head from "next/head";
 import { ogMetaTags } from "../../components/commonOgMetatags";
 import { wrapper } from "../redux/store";
 import { homeData } from "../redux/actions/getNewsdata";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const Home = () => {
-  const engNewsData = useSelector((store) => store.newsData);
+  const { hindi } = useSelector((store) => store.newsData);
   const { textConst } = allConst;
   const customStyle = {
     newsSection: {
@@ -38,7 +38,8 @@ const Home = () => {
       left: 0,
       width: "100%",
       height: "100%",
-      objectFit: "cover",
+      objectFit: "contain",
+      background: "#ccc",
     },
     newsContent: {
       flex: 2,
@@ -60,11 +61,10 @@ const Home = () => {
       <div className={styles.mainHeading}>
         <h1>{textConst.LATEST_NEWS}</h1>
       </div>
-      {engNewsData?.eng}
       <div className="newsSection" style={customStyle.newsSection}>
-        {newsData &&
-          newsData.length &&
-          newsData.map((item, index) => {
+        {hindi &&
+          hindi.length &&
+          hindi.map((item, index) => {
             return (
               <div key={item.article_id} style={customStyle.newsCard}>
                 <div className="tumbNail" style={customStyle.tumbNail}>
@@ -106,7 +106,11 @@ const Home = () => {
   );
 };
 export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-  await store.dispatch(homeData());
+  await axios(
+    "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+  ).then((data) => {
+    store.dispatch(homeData(data.data.results));
+  });
 });
 
 export default Home;
