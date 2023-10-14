@@ -110,7 +110,7 @@ const Home = () => {
     </Layout>
   );
 };
-export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+Home.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
   store.dispatch(apiCall());
   await axios(
     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
