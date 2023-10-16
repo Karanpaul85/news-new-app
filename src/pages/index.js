@@ -110,6 +110,7 @@ const Home = () => {
     </Layout>
   );
 };
+
 Home.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
   store.dispatch(apiCall());
   await axios(
@@ -122,5 +123,16 @@ Home.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
       store.dispatch(apiError(error?.response?.data));
     });
 });
+// Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
+//   await store.dispatch(apiCall());
+//   try {
+//     const res = await axios(
+//       "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede0811&language=hi&image=1&category=world"
+//     );
+//     await store.dispatch(homeData(res.data.results));
+//   } catch (error) {
+//     console.log(error.data, "error")
+//   }
+// });
 
 export default Home;

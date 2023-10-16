@@ -1,14 +1,13 @@
-import { wrapper } from "../redux/store";
 import "@/styles/globals.css";
 //import { Poppins } from "next/font/google";
 import { Provider } from "react-redux";
+import { wrapper } from "../redux/store";
 // const poppins = Poppins({
 //   weight: ["400", "500", "600"],
 //   style: ["normal", "italic"],
 //   subsets: ["latin"],
 //   display: "swap",
 // });
-
 const App = ({ Component, ...rest }) => {
   const { store, props } = wrapper.useWrappedStore(rest);
   return (
@@ -24,5 +23,4 @@ const App = ({ Component, ...rest }) => {
     </>
   );
 };
-
 export default App;
