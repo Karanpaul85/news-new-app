@@ -6,7 +6,7 @@ import Head from "next/head";
 import { ogMetaTags } from "../../components/commonOgMetatags";
 import { wrapper } from "../redux/store";
 import { homeData, apiCall, apiError } from "../redux/actions/getNewsdata";
-import { useSelector } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import axios from "axios";
 
 const Home = () => {
@@ -38,7 +38,7 @@ const Home = () => {
       left: 0,
       width: "100%",
       height: "100%",
-      objectFit: "contain",
+      objectFit: "cover",
       background: "#ccc",
     },
     newsContent: {
@@ -110,19 +110,40 @@ const Home = () => {
     </Layout>
   );
 };
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ req }) => {
+      try {
+        const res = await axios(
+            "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+          );
+          await store.dispatch(homeData(res.data.results));
+      } catch (error) {
+        store.dispatch(apiError(error?.response?.data));
+      }
+      // await store.dispatch(apiCall());
+      // const res = await axios(
+      //   "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede0811&language=hi&image=1&category=world"
+      // );
+      // console.log(res.data, "res.data.results");
+      // await store.dispatch(homeData(res.data.results));
+    }
+);
 
-Home.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
-  store.dispatch(apiCall());
-  await axios(
-    "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-  )
-    .then((data) => {
-      store.dispatch(homeData(data.data.results));
-    })
-    .catch((error) => {
-      store.dispatch(apiError(error?.response?.data));
-    });
-});
+// console.log(wrapper)
+// Home.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
+//   store.dispatch(apiCall());
+//   await axios(
+//     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+//   )
+//     .then((data) => {
+//       store.dispatch(homeData(data.data.results));
+//     })
+//     .catch((error) => {
+//       store.dispatch(apiError(error?.response?.data));
+//     });
+// });
+
 // Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
 //   await store.dispatch(apiCall());
 //   try {
@@ -135,4 +156,5 @@ Home.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
 //   }
 // });
 
-export default Home;
+// export default Home;
+export default connect((state) => state)(Home);
