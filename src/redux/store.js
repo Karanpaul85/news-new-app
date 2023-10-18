@@ -1,10 +1,39 @@
-import { createWrapper } from "next-redux-wrapper";
-import rootReducer from "./reducer/index";
-import { configureStore } from "@reduxjs/toolkit";
+// import { applyMiddleware, compose, createStore } from "redux";
+// import thunkMiddleware from "redux-thunk";
 
-const store = () =>
-  configureStore({
+// import monitorReducersEnhancer from "./enhancers/monitorReducer";
+// import loggerMiddleware from "./middleware/logger";
+// import rootReducer from "./reducers";
+
+// export default function configureStore(preloadedState) {
+//   const middlewares = [loggerMiddleware, thunkMiddleware];
+//   const middlewareEnhancer = applyMiddleware(...middlewares);
+
+//   const enhancers = [middlewareEnhancer, monitorReducersEnhancer];
+//   const composedEnhancers = compose(...enhancers);
+
+//   const store = createStore(rootReducer, preloadedState, composedEnhancers);
+//   return store;
+// }
+
+import { createWrapper } from "next-redux-wrapper";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import rootReducer from "./reducers";
+import loggerMiddleware from "./middleware/logger";
+import monitorReducersEnhancer from "./enhancers/monitorReducer";
+
+function configureAppStore(preloadedState) {
+  const store = configureStore({
     reducer: rootReducer,
-    devTools: true,
+    middleware: [loggerMiddleware, ...getDefaultMiddleware()],
+    preloadedState,
+    enhancers: [monitorReducersEnhancer],
   });
-export const wrapper = createWrapper(store, { debug: false });
+
+  if (process.env.NODE_ENV !== "production" && module.hot) {
+    module.hot.accept("./reducers", () => store.replaceReducer(rootReducer));
+  }
+
+  return store;
+}
+export const wrapper = createWrapper(configureAppStore, { debug: false });

@@ -1,16 +1,16 @@
 import Layout from "../../components/Layout";
 import { allConst } from "../constant/const";
 import styles from "../styles/Home.module.css";
+import { newsData } from "../constant/mockdata";
 import Image from "next/image";
 import Head from "next/head";
 import { ogMetaTags } from "../../components/commonOgMetatags";
 import { wrapper } from "../redux/store";
-import { homeData, apiCall, apiError } from "../redux/actions/getNewsdata";
-import { connect, useSelector } from "react-redux";
-import axios from "axios";
+import { engData } from "../redux/actions/getNewsdata";
+import { useSelector } from "react-redux";
 
-const Home = () => {
-  const { hindi, loading } = useSelector((store) => store.newsData);
+const Eng = () => {
+  const engNewsData = useSelector((store) => store.newsData);
   const { textConst } = allConst;
   const customStyle = {
     newsSection: {
@@ -39,7 +39,6 @@ const Home = () => {
       width: "100%",
       height: "100%",
       objectFit: "cover",
-      background: "#ccc",
     },
     newsContent: {
       flex: 2,
@@ -56,20 +55,16 @@ const Home = () => {
   };
   return (
     <Layout>
-      <Head>
-        {ogMetaTags(
-          hindi && hindi.length ? hindi?.[0] : "Welcome to world breaking News"
-        )}
-      </Head>
+      <Head>{ogMetaTags(newsData[1])}</Head>
       <div style={{ height: 200 }}>Slider</div>
       <div className={styles.mainHeading}>
         <h1>{textConst.LATEST_NEWS}</h1>
       </div>
+      {engNewsData?.eng}
       <div className="newsSection" style={customStyle.newsSection}>
-        {loading && <div>Loading...</div>}
-        {hindi &&
-          hindi.length &&
-          hindi.map((item, index) => {
+        {newsData &&
+          newsData.length &&
+          newsData.map((item, index) => {
             return (
               <div key={item.article_id} style={customStyle.newsCard}>
                 <div className="tumbNail" style={customStyle.tumbNail}>
@@ -110,51 +105,8 @@ const Home = () => {
     </Layout>
   );
 };
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) =>
-    async ({ req }) => {
-      try {
-        const res = await axios(
-            "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-          );
-          await store.dispatch(homeData(res.data.results));
-      } catch (error) {
-        store.dispatch(apiError(error?.response?.data));
-      }
-      // await store.dispatch(apiCall());
-      // const res = await axios(
-      //   "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede0811&language=hi&image=1&category=world"
-      // );
-      // console.log(res.data, "res.data.results");
-      // await store.dispatch(homeData(res.data.results));
-    }
-);
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  await store.dispatch(engData());
+});
 
-// console.log(wrapper)
-// Home.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
-//   store.dispatch(apiCall());
-//   await axios(
-//     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-//   )
-//     .then((data) => {
-//       store.dispatch(homeData(data.data.results));
-//     })
-//     .catch((error) => {
-//       store.dispatch(apiError(error?.response?.data));
-//     });
-// });
-
-// Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
-//   await store.dispatch(apiCall());
-//   try {
-//     const res = await axios(
-//       "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede0811&language=hi&image=1&category=world"
-//     );
-//     await store.dispatch(homeData(res.data.results));
-//   } catch (error) {
-//     console.log(error.data, "error")
-//   }
-// });
-
-// export default Home;
-export default connect((state) => state)(Home);
+export default Eng;

@@ -1,8 +1,7 @@
 import "@/styles/globals.css";
-import { wrapper } from "../redux/store";
 import { Poppins } from "next/font/google";
-import ErrorBoundary from "../../components/ErrorBoundry";
 import { Provider } from "react-redux";
+import { wrapper } from "../redux/store";
 const poppins = Poppins({
   weight: ["400", "500", "600"],
   style: ["normal", "italic"],
@@ -18,11 +17,9 @@ const App = ({ Component, ...rest }) => {
           font-family: ${poppins.style.fontFamily};
         }
       `}</style>
-      <ErrorBoundary>
-        <Provider store={store}>
-          <Component {...props.pageProps} />
-        </Provider>
-      </ErrorBoundary>
+      <Provider store={store}>
+        <Component {...props.pageProps} />
+      </Provider>
     </>
   );
 };

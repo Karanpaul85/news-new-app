@@ -1,45 +1,61 @@
-import React, { useState } from "react";
-import styles from "./BottomBar.module.css";
-import {
-  Box,
-  BottomNavigation,
-  BottomNavigationAction,
-  Paper,
-} from "@mui/material";
+import React from "react";
+import { useRouter } from "next/router";
 import { Home, Search, Person } from "@mui/icons-material";
+import Link from "next/link";
 const BottomBar = () => {
-  const [value, setValue] = useState("home");
+  const router = useRouter();
+  const customStyle = {
+    bottomBaar: {
+      position: "fixed",
+      bottom: 0,
+      left: 0,
+      width: "100%",
+      background: "#fff",
+      boxShadow: "rgba(0, 0, 0, 0.2) -2px -2px 2px",
+      display: "flex",
+      listStyle: "none",
+      alignItems: "center",
+      justifyContent: "center",
+      height: 54,
+    },
+    item: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      display: "flex",
+      height: 54,
+    },
+  };
   return (
-    <Box sx={{ width: 500 }}>
-      <Paper
-        sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-        elevation={3}
-      >
-        <BottomNavigation
-          showLabels
-          value={value}
-          onChange={(event, newValue) => {
-            setValue(newValue);
-          }}
+    <ul style={customStyle.bottomBaar}>
+      <li style={customStyle.item}>
+        <Link
+          href="/"
+          style={customStyle.item}
+          className={router.asPath == "/" ? "active" : ""}
         >
-          <BottomNavigationAction
-            label="Home"
-            value="home"
-            icon={<Home />}
-          />
-          <BottomNavigationAction
-            label="Search"
-            value="search"
-            icon={<Search />}
-          />
-          <BottomNavigationAction
-            label="Profile"
-            value="profile"
-            icon={<Person />}
-          />
-        </BottomNavigation>
-      </Paper>
-    </Box>
+          <Home></Home>
+        </Link>
+      </li>
+      <li style={customStyle.item}>
+        <Link
+          href="/eng"
+          style={customStyle.item}
+          className={router.asPath == "/eng" ? "active" : ""}
+        >
+          <Search></Search>
+        </Link>
+      </li>
+      <li style={customStyle.item}>
+        <Link
+          href="/"
+          style={customStyle.item}
+          className={router.asPath == "/" ? "active" : ""}
+        >
+          <Person></Person>
+        </Link>
+      </li>
+    </ul>
   );
 };
 export default BottomBar;

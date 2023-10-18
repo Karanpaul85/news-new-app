@@ -1,7 +1,13 @@
 import Head from "next/head";
-import BottomBar from "./bottomBar/BottomBar";
+import dynamic from "next/dynamic";
 import Header from "./header/Header";
+import { useEffect, useState } from "react";
+import BottomBar from "./bottomBar/BottomBar";
 const Layout = (props) => {
+  const [currentUrl, setCurrentUrl] = useState("");
+  useEffect(() => {
+    setCurrentUrl(window.location.href);
+  }, [setCurrentUrl]);
   return (
     <>
       <Head>
@@ -17,11 +23,12 @@ const Layout = (props) => {
         <meta property="og:image" content="/favicon.ico" />
         <meta name="twitter:image" content="/favicon.ico" />
         <meta name="theme-color" content="#07007a" />
-        <title>Welcome to Breaking News</title>
         <meta
           name="keywords"
           content="Hindi news, हिंदी न्यूज़ , Hindi Samachar, हिंदी समाचार, Latest News in Hindi, Breaking News in Hindi, ताजा ख़बरें, KP News"
         />
+        <meta name="twitter:url" content={currentUrl} />
+        <meta property="og:url" content={currentUrl} />
       </Head>
       <Header />
       <main>{props.children}</main>
