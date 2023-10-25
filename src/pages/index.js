@@ -111,22 +111,7 @@ function Home(props) {
     </Layout>
   );
 }
-export async function getServerSideProps() {
-  let finalData;
-  const res = await fetch(
-    'https://gnews.io/api/v3/topics/world?token=74d41973972e4e19eba58d79aab49ee0&&lang=hi'
-  );
-  const data = await res.json();
-  if (data.articleCount !== 0 && !data.errors) {
-    finalData = data;
-  } else {
-    finalData = dummyData;
-  }
-  //store.dispatch(fetchHindiNews(finalData));
-  return {
-    props: finalData,
-  };
-}
+
 // console.log(wrapper)
 // Home.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
 //   store.dispatch(apiCall());
@@ -141,17 +126,17 @@ export async function getServerSideProps() {
 //     });
 // });
 
-// Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
-//   await store.dispatch(apiCall());
-//   try {
-//     const res = await axios(
-//       "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-//     );
-//     await store.dispatch(homeData(res.data.results));
-//   } catch (error) {
-//     console.log(error.data, "error");
-//   }
-// });
+Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
+  await store.dispatch(apiCall());
+  try {
+    const res = await axios(
+      "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+    );
+    await store.dispatch(homeData(res.data.results));
+  } catch (error) {
+    console.log(error.data, "error");
+  }
+});
 
 export default Home;
 // export default connect((state) => state)(Home);
