@@ -68,12 +68,12 @@ const Home = (props) => {
       </div>
       <div className="newsSection" style={customStyle.newsSection}>
         {loading && <div>Loading...</div>}
-        {props.articles &&
-          props.articles.length &&
-          props.articles.map((item, index) => {
+        {hindi &&
+          hindi.length &&
+          hindi.map((item, index) => {
             return (
               <div key={item.article_id} style={customStyle.newsCard}>
-                {/* <div className="tumbNail" style={customStyle.tumbNail}>
+                <div className="tumbNail" style={customStyle.tumbNail}>
                   {index > 2 ? (
                     <Image
                       src={item.image_url}
@@ -97,7 +97,7 @@ const Home = (props) => {
                       priority
                     />
                   )}
-                </div> */}
+                </div>
                 <div className="newsContent" style={customStyle.newsContent}>
                   <h2 style={customStyle.h3Hdeading}>{item.title}</h2>
                   <p style={customStyle.published}>
@@ -111,36 +111,21 @@ const Home = (props) => {
     </Layout>
   );
 };
-// export const getServerSideProps = wrapper.getServerSideProps(
-//   (store) =>
-//     async ({ req }) => {
-//       store.dispatch(apiCall());
-//       try {
-//         const res = await axios(
-//           "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-//         );
-//         await store.dispatch(homeData(res.data?.results));
-//       } catch (error) {
-//         store.dispatch(apiError(error?.response?.data));
-//       }
-//     }
-// );
-export async function getServerSideProps() {
-  let finalData;
-  const res = await fetch(
-    "https://gnews.io/api/v3/topics/world?token=74d41973972e4e19eba58d79aab49ee0&&lang=hi"
-  );
-  const data = await res.json();
-  if (data.articleCount !== 0 && !data.errors) {
-    finalData = data;
-  } else {
-    finalData = dummyData;
-  }
-  //store.dispatch(fetchHindiNews(finalData));
-  return {
-    props: finalData,
-  };
-}
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ req }) => {
+      store.dispatch(apiCall());
+      // try {
+      //   const res = await axios(
+      //     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+      //   );
+      //   await store.dispatch(homeData(res.data?.results));
+      // } catch (error) {
+      //   store.dispatch(apiError(error?.response?.data));
+      // }
+    }
+);
+
 // console.log(wrapper)
 // Home.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
 //   store.dispatch(apiCall());
