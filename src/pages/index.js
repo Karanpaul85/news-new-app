@@ -111,20 +111,20 @@ const Home = (props) => {
     </Layout>
   );
 };
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) =>
-    ({ req }) => {
-      store.dispatch(apiCall());
-      try {
-        const res = axios(
-          "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-        );
-        store.dispatch(homeData(res.data?.results));
-      } catch (error) {
-        store.dispatch(apiError(error?.response?.data));
-      }
-    }
-);
+// export const getServerSideProps = wrapper.getServerSideProps(
+//   (store) =>
+//     ({ req }) => {
+//       store.dispatch(apiCall());
+//       try {
+//         const res = axios(
+//           "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+//         );
+//         store.dispatch(homeData(res.data?.results));
+//       } catch (error) {
+//         store.dispatch(apiError(error?.response?.data));
+//       }
+//     }
+// );
 
 // console.log(wrapper)
 // Home.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
