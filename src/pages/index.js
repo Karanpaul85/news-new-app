@@ -1,3 +1,4 @@
+import react, { useCallback, useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import { allConst } from "../constant/const";
 import styles from "../styles/Home.module.css";
@@ -9,9 +10,9 @@ import { homeData, apiCall, apiError } from "../redux/actions/getNewsdata";
 import { connect, useSelector } from "react-redux";
 import axios from "axios";
 
-function Home(props) {
-  console.log(props.articles);
-  const { hindi, loading } = useSelector((store) => store.newsData);
+function Home() {
+  //const { hindi, loading } = useSelector((store) => store.newsData);
+  const [hindi, setHindi] = useState([]);
   const { textConst } = allConst;
   const customStyle = {
     newsSection: {
@@ -55,6 +56,15 @@ function Home(props) {
       fontSize: "12px",
     },
   };
+  const fetchData = useCallback(async () => {
+    const res = await axios(
+      "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+    );
+    setHindi(res.data.results);
+  }, []);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
   return (
     <Layout>
       <Head>
@@ -67,7 +77,7 @@ function Home(props) {
         <h1>{textConst.LATEST_NEWS}</h1>
       </div>
       <div className="newsSection" style={customStyle.newsSection}>
-        {loading && <div>Loading...</div>}
+        {!hindi && <div>Loading...</div>}
         {hindi &&
           hindi.length &&
           hindi.map((item, index) => {
@@ -126,19 +136,19 @@ function Home(props) {
 //     });
 // });
 
-Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
-  try {
-    console.time("apiCall");
-    store.dispatch(apiCall());
-    const res = await axios(
-      "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-    );
-    console.timeEnd("apiCall");
-    await store.dispatch(homeData(res.data.results));
-  } catch (error) {
-    console.log(error.data, "error");
-  }
-});
+// Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
+//   try {
+//     console.time("apiCall");
+//     store.dispatch(apiCall());
+//     const res = await axios(
+//       "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+//     );
+//     console.timeEnd("apiCall");
+//     await store.dispatch(homeData(res.data.results));
+//   } catch (error) {
+//     console.log(error.data, "error");
+//   }
+// });
 
 export default Home;
 // export default connect((state) => state)(Home);
