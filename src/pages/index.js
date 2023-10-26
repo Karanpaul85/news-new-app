@@ -59,7 +59,7 @@ function Home() {
   //   const res = await axios(
   //     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
   //   );
-  //   setHindi(res.data.results);
+  //   await setHindi(res.data.results);
   // }, []);
   // useEffect(() => {
   //   fetchData();
@@ -81,27 +81,27 @@ function Home() {
           hindi.length > 0 &&
           hindi.map((item, index) => {
             return (
-              <div key={item.id} style={customStyle.newsCard}>
+              <div key={item.article_id} style={customStyle.newsCard}>
                 <div className="tumbNail" style={customStyle.tumbNail}>
                   {index > 2 ? (
                     <Image
-                      src={item.image}
+                      src={item.image_url}
                       width={600}
                       height={600}
                       alt=""
                       style={customStyle.img}
                       loading="lazy"
-                      blurDataURL={item.image}
+                      blurDataURL={item.image_url}
                       placeholder="blur"
                     />
                   ) : (
                     <Image
-                      src={item.image}
+                      src={item.image_url}
                       width={600}
                       height={600}
                       alt=""
                       style={customStyle.img}
-                      blurDataURL={item.image}
+                      blurDataURL={item.image_url}
                       placeholder="blur"
                       priority
                     />
@@ -122,20 +122,24 @@ function Home() {
 }
 
 Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
-  try {
-    console.time("apiCall");
-    store.dispatch(apiCall());
-    // const res = await axios(
-    //   "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-    // );
-    const res = await axios(
-      "https://dummyjson.com/users"
-    );
-    console.timeEnd("apiCall");
-    await store.dispatch(homeData(res.data.users));
-  } catch (error) {
-    console.log(error.data, "error");
-  }
+  // try {
+  //   console.time("apiCall");
+  //   store.dispatch(apiCall());
+  //   const res = await axios(
+  //     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+  //   );
+  //   console.timeEnd("apiCall");
+  //   await store.dispatch(homeData(res.data.results));
+  // } catch (error) {
+  //   console.log(error.data, "error");
+  // }
+  console.time("apiCall");
+  const res = await fetch(
+    "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+  );
+  const data = await res.json();
+  await store.dispatch(homeData(data.results));
+  console.timeEnd("apiCall");
 });
 
 export default Home;
