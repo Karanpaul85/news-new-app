@@ -11,8 +11,8 @@ import { connect, useSelector } from "react-redux";
 import axios from "axios";
 
 function Home() {
-  //const { hindi, loading } = useSelector((store) => store.newsData);
-  const [hindi, setHindi] = useState([]);
+  const { hindi, loading } = useSelector((store) => store.newsData);
+  // const [hindi, setHindi] = useState([]);
   const { textConst } = allConst;
   const customStyle = {
     newsSection: {
@@ -41,7 +41,6 @@ function Home() {
       width: "100%",
       height: "100%",
       objectFit: "cover",
-      background: "#ccc",
     },
     newsContent: {
       flex: 2,
@@ -56,15 +55,15 @@ function Home() {
       fontSize: "12px",
     },
   };
-  const fetchData = useCallback(async () => {
-    const res = await axios(
-      "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-    );
-    setHindi(res.data.results);
-  }, []);
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  // const fetchData = useCallback(async () => {
+  //   const res = await axios(
+  //     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+  //   );
+  //   setHindi(res.data.results);
+  // }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [fetchData]);
   return (
     <Layout>
       <Head>
@@ -77,32 +76,32 @@ function Home() {
         <h1>{textConst.LATEST_NEWS}</h1>
       </div>
       <div className="newsSection" style={customStyle.newsSection}>
-        {!hindi && <div>Loading...</div>}
+        {loading && <div>Loading...</div>}
         {hindi &&
-          hindi.length &&
+          hindi.length > 0 &&
           hindi.map((item, index) => {
             return (
-              <div key={item.article_id} style={customStyle.newsCard}>
+              <div key={item.id} style={customStyle.newsCard}>
                 <div className="tumbNail" style={customStyle.tumbNail}>
                   {index > 2 ? (
                     <Image
-                      src={item.image_url}
+                      src={item.image}
                       width={600}
                       height={600}
                       alt=""
                       style={customStyle.img}
                       loading="lazy"
-                      blurDataURL={item.image_url}
+                      blurDataURL={item.image}
                       placeholder="blur"
                     />
                   ) : (
                     <Image
-                      src={item.image_url}
+                      src={item.image}
                       width={600}
                       height={600}
                       alt=""
                       style={customStyle.img}
-                      blurDataURL={item.image_url}
+                      blurDataURL={item.image}
                       placeholder="blur"
                       priority
                     />
@@ -122,33 +121,21 @@ function Home() {
   );
 }
 
-// console.log(wrapper)
-// Home.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
-//   store.dispatch(apiCall());
-//   await axios(
-//     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-//   )
-//     .then((data) => {
-//       store.dispatch(homeData(data.data.results));
-//     })
-//     .catch((error) => {
-//       store.dispatch(apiError(error?.response?.data));
-//     });
-// });
-
-// Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
-//   try {
-//     console.time("apiCall");
-//     store.dispatch(apiCall());
-//     const res = await axios(
-//       "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-//     );
-//     console.timeEnd("apiCall");
-//     await store.dispatch(homeData(res.data.results));
-//   } catch (error) {
-//     console.log(error.data, "error");
-//   }
-// });
+Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
+  try {
+    console.time("apiCall");
+    store.dispatch(apiCall());
+    // const res = await axios(
+    //   "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+    // );
+    const res = await axios(
+      "https://dummyjson.com/users"
+    );
+    console.timeEnd("apiCall");
+    await store.dispatch(homeData(res.data.users));
+  } catch (error) {
+    console.log(error.data, "error");
+  }
+});
 
 export default Home;
-// export default connect((state) => state)(Home);
