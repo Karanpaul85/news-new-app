@@ -7,12 +7,13 @@ import Head from "next/head";
 import { ogMetaTags } from "../../components/commonOgMetatags";
 import { wrapper } from "../redux/store";
 import { homeData, apiCall, apiError } from "../redux/actions/getNewsdata";
-import { connect, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 function Home() {
-  // const { hindi, loading } = useSelector((store) => store.newsData);
-  const [hindi, setHindi] = useState([]);
+  const dispatch = useDispatch();
+  const { hindi, loading } = useSelector((store) => store.newsData);
+  //const [hindi, setHindi] = useState([]);
   const { textConst } = allConst;
   const customStyle = {
     newsSection: {
@@ -59,8 +60,9 @@ function Home() {
     const res = await axios(
       "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
     );
-    await setHindi(res.data.results);
-  }, []);
+   // await setHindi(res.data.results);
+    dispatch(homeData(res.data.results));
+  }, [dispatch]);
   useEffect(() => {
     fetchData();
   }, [fetchData]);
