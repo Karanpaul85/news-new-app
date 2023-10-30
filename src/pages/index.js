@@ -138,15 +138,21 @@ Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
   try {
     console.time("apiCall");
     store.dispatch(apiCall());
+    // const res = await axios.get(
+    //   "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world",
+    //   {
+    //     timeout: 3000,
+    //   }
+    // );
     const res = await axios.get(
-      "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world",
+      "https://qa-r2.fnp.com/d/control/getShippingDetails-rj?countryGeoId=IND&deliveryDate=03%2F11%2F2023&pinCode=110001&productId=CAKE57684",
       {
         timeout: 3000,
       }
     );
-    console.log(res.headers)
+    console.log(res.data);
     console.timeEnd("apiCall");
-    await store.dispatch(homeData(res.data.results));
+    await store.dispatch(homeData(res.data.shippingDetails));
   } catch (error) {
     console.log(error.data, "error");
   }
