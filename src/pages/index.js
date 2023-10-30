@@ -7,13 +7,13 @@ import Head from "next/head";
 import { ogMetaTags } from "../../components/commonOgMetatags";
 import { wrapper } from "../redux/store";
 import { homeData, apiCall, apiError } from "../redux/actions/getNewsdata";
-import { connect, useDispatch, useSelector } from "react-redux";
-import axios, { AxiosError } from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import Link from "next/link";
 
 function Home() {
   const dispatch = useDispatch();
   const { hindi, loading } = useSelector((store) => store.newsData);
-  //const [hindi, setHindi] = useState([]);
   const { textConst } = allConst;
   const customStyle = {
     newsSection: {
@@ -42,7 +42,8 @@ function Home() {
       width: "100%",
       height: "100%",
       objectFit: "contain",
-      background: "#d5d5d5",
+      backgroundImage: "url('/assets/images/blur-bg.jpg')",
+      backgroundSize: "cover",
     },
     newsContent: {
       flex: 2,
@@ -57,21 +58,21 @@ function Home() {
       fontSize: "12px",
     },
   };
-  const fetchData = useCallback(async () => {
-    dispatch(apiCall());
-    const res = await axios
-      .get(
-        "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-      )
-      .catch((error) => {
-        console.log(error.message, "finl");
-        dispatch(apiError(error.message));
-      });
-    await dispatch(homeData(res?.data?.results));
-  }, [dispatch]);
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  // const fetchData = useCallback(async () => {
+  //   dispatch(apiCall());
+  //   const res = await axios
+  //     .get(
+  //       "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+  //     )
+  //     .catch((error) => {
+  //       console.log(error.message, "finl");
+  //       dispatch(apiError(error.message));
+  //     });
+  //   await dispatch(homeData(res?.data?.results));
+  // }, [dispatch]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [fetchData]);
   return (
     <Layout>
       <Head>
@@ -89,7 +90,11 @@ function Home() {
           hindi.length > 0 &&
           hindi.map((item, index) => {
             return (
-              <div key={item.article_id} style={customStyle.newsCard}>
+              <Link
+                href={`/hindi/${item.article_id}`}
+                key={item.article_id}
+                style={customStyle.newsCard}
+              >
                 <div className="tumbNail" style={customStyle.tumbNail}>
                   {index > 2 ? (
                     <Image
@@ -121,7 +126,7 @@ function Home() {
                     Published at : {item.pubDate}
                   </p>
                 </div>
-              </div>
+              </Link>
             );
           })}
       </div>
@@ -129,25 +134,28 @@ function Home() {
   );
 }
 
-// Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
-//   // try {
-//   //   console.time("apiCall");
-//   //   store.dispatch(apiCall());
-//   //   const res = await axios(
-//   //     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-//   //   );
-//   //   console.timeEnd("apiCall");
-//   //   await store.dispatch(homeData(res.data.results));
-//   // } catch (error) {
-//   //   console.log(error.data, "error");
-//   // }
-//   console.time("apiCall");
-//   const res = await fetch(
-//     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-//   );
-//   const data = await res.json();
-//   await store.dispatch(homeData(data.results));
-//   console.timeEnd("apiCall");
-// });
+Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
+  try {
+    console.time("apiCall");
+    store.dispatch(apiCall());
+    const res = await axios.get(
+      "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world",
+      {
+        timeout: 3000,
+      }
+    );
+    console.timeEnd("apiCall");
+    await store.dispatch(homeData(res.data.results));
+  } catch (error) {
+    console.log(error.data, "error");
+  }
+  // console.time("apiCall");
+  // const res = await fetch(
+  //   "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+  // );
+  // const data = await res.json();
+  // await store.dispatch(homeData(data.results));
+  // console.timeEnd("apiCall");
+});
 
 export default Home;
