@@ -145,7 +145,7 @@ Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
     //   }
     // );
     const res = await axios.get(
-      "https://qa-r2.fnp.com/d/control/getShippingDetails-rj?countryGeoId=IND&deliveryDate=03%2F11%2F2023&pinCode=110001&productId=CAKE57684",
+      "https://www.fnp.com/d/control/getShippingDetails-rj?countryGeoId=IND&deliveryDate=03%2F11%2F2023&pinCode=110001&productId=CAKE57684",
       {
         timeout: 3000,
       }
