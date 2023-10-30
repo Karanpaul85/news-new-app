@@ -38,7 +38,8 @@ const Eng = () => {
       left: 0,
       width: "100%",
       height: "100%",
-      objectFit: "cover",
+      objectFit: "contain",
+      background: "#d5d5d5",
     },
     newsContent: {
       flex: 2,
@@ -74,10 +75,11 @@ const Eng = () => {
                       width={600}
                       height={600}
                       alt=""
-                      style={customStyle.img}
+                      //style={customStyle.img}
                       loading="lazy"
                       blurDataURL={item.image_url}
                       placeholder="blur"
+                      style={customStyle.img}
                     />
                   ) : (
                     <Image
@@ -85,6 +87,7 @@ const Eng = () => {
                       width={600}
                       height={600}
                       alt=""
+                      //style={customStyle.img}
                       style={customStyle.img}
                       blurDataURL={item.image_url}
                       placeholder="blur"

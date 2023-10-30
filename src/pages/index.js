@@ -8,7 +8,7 @@ import { ogMetaTags } from "../../components/commonOgMetatags";
 import { wrapper } from "../redux/store";
 import { homeData, apiCall, apiError } from "../redux/actions/getNewsdata";
 import { connect, useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 function Home() {
   const dispatch = useDispatch();
@@ -41,7 +41,8 @@ function Home() {
       left: 0,
       width: "100%",
       height: "100%",
-      objectFit: "cover",
+      objectFit: "contain",
+      background: "#d5d5d5",
     },
     newsContent: {
       flex: 2,
@@ -57,11 +58,16 @@ function Home() {
     },
   };
   const fetchData = useCallback(async () => {
-    const res = await axios(
-      "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-    );
-   // await setHindi(res.data.results);
-    dispatch(homeData(res.data.results));
+    dispatch(apiCall());
+    const res = await axios
+      .get(
+        "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+      )
+      .catch((error) => {
+        console.log(error.message, "finl");
+        dispatch(apiError(error.message));
+      });
+    await dispatch(homeData(res?.data?.results));
   }, [dispatch]);
   useEffect(() => {
     fetchData();
@@ -78,7 +84,7 @@ function Home() {
         <h1>{textConst.LATEST_NEWS}</h1>
       </div>
       <div className="newsSection" style={customStyle.newsSection}>
-        {/* {loading && <div>Loading...</div>} */}
+        {loading && <div>Loading...</div>}
         {hindi &&
           hindi.length > 0 &&
           hindi.map((item, index) => {
