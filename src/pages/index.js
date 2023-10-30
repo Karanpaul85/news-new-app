@@ -11,8 +11,8 @@ import { connect, useSelector } from "react-redux";
 import axios from "axios";
 
 function Home() {
-  const { hindi, loading } = useSelector((store) => store.newsData);
-  // const [hindi, setHindi] = useState([]);
+  // const { hindi, loading } = useSelector((store) => store.newsData);
+  const [hindi, setHindi] = useState([]);
   const { textConst } = allConst;
   const customStyle = {
     newsSection: {
@@ -55,15 +55,15 @@ function Home() {
       fontSize: "12px",
     },
   };
-  // const fetchData = useCallback(async () => {
-  //   const res = await axios(
-  //     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-  //   );
-  //   await setHindi(res.data.results);
-  // }, []);
-  // useEffect(() => {
-  //   fetchData();
-  // }, [fetchData]);
+  const fetchData = useCallback(async () => {
+    const res = await axios(
+      "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+    );
+    await setHindi(res.data.results);
+  }, []);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
   return (
     <Layout>
       <Head>
@@ -76,7 +76,7 @@ function Home() {
         <h1>{textConst.LATEST_NEWS}</h1>
       </div>
       <div className="newsSection" style={customStyle.newsSection}>
-        {loading && <div>Loading...</div>}
+        {/* {loading && <div>Loading...</div>} */}
         {hindi &&
           hindi.length > 0 &&
           hindi.map((item, index) => {
@@ -121,25 +121,25 @@ function Home() {
   );
 }
 
-Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
-  // try {
-  //   console.time("apiCall");
-  //   store.dispatch(apiCall());
-  //   const res = await axios(
-  //     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-  //   );
-  //   console.timeEnd("apiCall");
-  //   await store.dispatch(homeData(res.data.results));
-  // } catch (error) {
-  //   console.log(error.data, "error");
-  // }
-  console.time("apiCall");
-  const res = await fetch(
-    "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
-  );
-  const data = await res.json();
-  await store.dispatch(homeData(data.results));
-  console.timeEnd("apiCall");
-});
+// Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
+//   // try {
+//   //   console.time("apiCall");
+//   //   store.dispatch(apiCall());
+//   //   const res = await axios(
+//   //     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+//   //   );
+//   //   console.timeEnd("apiCall");
+//   //   await store.dispatch(homeData(res.data.results));
+//   // } catch (error) {
+//   //   console.log(error.data, "error");
+//   // }
+//   console.time("apiCall");
+//   const res = await fetch(
+//     "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+//   );
+//   const data = await res.json();
+//   await store.dispatch(homeData(data.results));
+//   console.timeEnd("apiCall");
+// });
 
 export default Home;
