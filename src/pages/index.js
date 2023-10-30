@@ -144,6 +144,7 @@ Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
         timeout: 3000,
       }
     );
+    console.log(res.headers)
     console.timeEnd("apiCall");
     await store.dispatch(homeData(res.data.results));
   } catch (error) {
