@@ -8,8 +8,9 @@ import { ogMetaTags } from "../../components/commonOgMetatags";
 import { wrapper } from "../redux/store";
 import { homeData, apiCall, apiError } from "../redux/actions/getNewsdata";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import Link from "next/link";
+import api from "../../app-config/axios";
+import axios from "axios";
 
 function Home() {
   const dispatch = useDispatch();
@@ -136,23 +137,21 @@ function Home() {
 
 Home.getInitialProps = wrapper.getInitialPageProps((store) => async (ctx) => {
   try {
-    console.time("apiCall");
     store.dispatch(apiCall());
+    const res = await api.get(
+      "/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world"
+    );
     // const res = await axios.get(
-    //   "https://newsdata.io/api/1/news?apikey=pub_30553943e4fa640b3256ae5087619b2dede08&language=hi&image=1&category=world",
+    //   "https://www.fnp.com/d/control/getShippingDetails-rj?countryGeoId=IND&deliveryDate=03%2F11%2F2023&pinCode=110001&productId=CAKE57684",
     //   {
     //     timeout: 3000,
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
     //   }
     // );
-    const res = await axios.get(
-      "https://www.fnp.com/d/control/getShippingDetails-rj?countryGeoId=IND&deliveryDate=03%2F11%2F2023&pinCode=110001&productId=CAKE57684",
-      {
-        timeout: 3000,
-      }
-    );
-    console.log(res.data);
-    console.timeEnd("apiCall");
-    await store.dispatch(homeData(res.data.shippingDetails));
+    // console.log(res.data);
+    await store.dispatch(homeData(res.data.results));
   } catch (error) {
     console.log(error.data, "error");
   }
